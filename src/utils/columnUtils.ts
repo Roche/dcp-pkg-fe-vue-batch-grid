@@ -11,10 +11,12 @@ const DEFAULT_DISPLAY_FORMAT: Required<DisplayFormat> = {
 
 const VALUE_COLUMN_KEY_PREFIX = 'value_';
 
-export const toColumnKey = (name: string): string =>
-    name.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
-
-export const toValueColumnKey = (name: string): string => `${VALUE_COLUMN_KEY_PREFIX}${toColumnKey(name)}`;
+/**
+ * Key of a value column: prefix + the **unchanged** attribute name. Keys are only used as object/map keys,
+ * so any character is fine; the previous slug (`Temp (C)` and `Temp C` → `value_temp_c`, CJK names → `value_`)
+ * made different attributes share one key and silently show/export the wrong values.
+ */
+export const toValueColumnKey = (name: string): string => `${VALUE_COLUMN_KEY_PREFIX}${name}`;
 
 export const isValueColumnKey = (key: string): boolean => key.startsWith(VALUE_COLUMN_KEY_PREFIX);
 
@@ -42,7 +44,8 @@ export const inferColumnType = (
         [AttributeSettingValueType.Boolean]: 'string'
     };
 
-    return valueType ? valueTypeToColumnType[valueType] : 'string';
+    // Unknown/new ValueType values from the backend fall back to text instead of an undefined column type
+    return valueTypeToColumnType[valueType] ?? 'string';
 };
 
 export const buildValueColumns = (

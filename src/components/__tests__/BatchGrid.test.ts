@@ -210,7 +210,7 @@ describe('BatchGrid selectedRowIds control', () => {
             expect.arrayContaining([
                 expect.objectContaining({ key: 'startTime' }),
                 expect.objectContaining({ key: 'endTime' }),
-                expect.objectContaining({ key: 'value_batch_name', label: 'Batch Name' })
+                expect.objectContaining({ key: 'value_Batch Name', label: 'Batch Name' })
             ])
         );
 
@@ -631,10 +631,10 @@ describe('BatchGrid selectedRowIds control', () => {
         const gridBeforeToggle = wrapper.findComponent({ name: 'DcpGrid' });
         const columnsBeforeToggle = gridBeforeToggle.props('columns') as Array<{ key: string }>;
 
-        expect(columnsBeforeToggle.some((column) => column.key === 'value_batch_name')).toBe(true);
+        expect(columnsBeforeToggle.some((column) => column.key === 'value_Batch Name')).toBe(true);
 
         await wrapper.findComponent({ name: 'ViewColumns' }).vm.$emit('toggle-column-visibility', {
-            key: 'value_batch_name',
+            key: 'value_Batch Name',
             visible: false
         });
         await wrapper.vm.$nextTick();
@@ -642,7 +642,7 @@ describe('BatchGrid selectedRowIds control', () => {
         const gridAfterValueToggle = wrapper.findComponent({ name: 'DcpGrid' });
         const columnsAfterValueToggle = gridAfterValueToggle.props('columns') as Array<{ key: string }>;
 
-        expect(columnsAfterValueToggle.some((column) => column.key === 'value_batch_name')).toBe(false);
+        expect(columnsAfterValueToggle.some((column) => column.key === 'value_Batch Name')).toBe(false);
         expect(wrapper.emitted('column-selection-change')).toEqual([[[]]]);
 
         await wrapper.findComponent({ name: 'ViewColumns' }).vm.$emit('toggle-column-visibility', {
@@ -737,14 +737,14 @@ describe('BatchGrid selectedRowIds control', () => {
             columns: ValueColumnDef[];
         }>;
 
-        expect(gridColumns.some((column) => column.key === 'value_batch_name')).toBe(true);
+        expect(gridColumns.some((column) => column.key === 'value_Batch Name')).toBe(true);
         expect(gridColumns.some((column) => column.key === 'value_external_temperature_band')).toBe(false);
         expect(viewColumnSections).toEqual([
             {
                 title: 'Always available',
                 columns: [
                     {
-                        key: 'value_batch_name',
+                        key: 'value_Batch Name',
                         label: 'Batch Name',
                         type: 'string'
                     }
